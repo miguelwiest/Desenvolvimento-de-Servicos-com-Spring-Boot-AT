@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MatriculaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.controller</a> &gt; <span class="el_source">MatriculaController.java</span></div><h1>MatriculaController.java</h1><pre class="source lang-java linenums">package com.example.demo.controller;
+
+import com.example.demo.model.Aluno;
+import com.example.demo.model.Matricula;
+import com.example.demo.service.MatriculaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/matriculas&quot;)
+<span class="fc" id="L13">public class MatriculaController {</span>
+
+    @Autowired
+    private MatriculaService matriculaService;
+
+    @PostMapping(&quot;/alocar&quot;)
+    public Matricula alocarAluno(@RequestParam String alunoId, @RequestParam String disciplinaId) {
+<span class="fc" id="L20">        return matriculaService.alocarAluno(alunoId, disciplinaId);</span>
+    }
+
+    @PutMapping(&quot;/{matriculaId}/nota&quot;)
+    public Matricula atribuirNota(@PathVariable String matriculaId, @RequestParam Double nota) {
+<span class="fc" id="L25">        return matriculaService.atribuirNota(matriculaId, nota);</span>
+    }
+
+    @GetMapping(&quot;/disciplinas/{disciplinaId}/aprovados&quot;)
+    public List&lt;Aluno&gt; listarAprovados(@PathVariable String disciplinaId) {
+<span class="fc" id="L30">        return matriculaService.listarAprovados(disciplinaId);</span>
+    }
+
+    @GetMapping(&quot;/disciplinas/{disciplinaId}/reprovados&quot;)
+    public List&lt;Aluno&gt; listarReprovados(@PathVariable String disciplinaId) {
+<span class="fc" id="L35">        return matriculaService.listarReprovados(disciplinaId);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,10 +1,10 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Matricula;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface MatriculaRepository extends JpaRepository<Matricula, Long> {
-    List<Matricula> findByDisciplinaId(Long disciplinaId);
+public interface MatriculaRepository extends MongoRepository<Matricula, String> {
+    List<Matricula> findByDisciplinaId(String disciplinaId);
 }

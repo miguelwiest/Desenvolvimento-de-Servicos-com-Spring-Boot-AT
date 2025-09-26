@@ -36,77 +36,68 @@ public class MatriculaServiceTest {
     private DisciplinaRepository disciplinaRepository;
 
     @Test
-    public void testAlocarAluno() {
+    void testAlocarAluno() {
         Aluno aluno = new Aluno();
-        aluno.setId(1L);
-
+        aluno.setId("1");
         Disciplina disciplina = new Disciplina();
-        disciplina.setId(1L);
+        disciplina.setId("1");
 
-        when(alunoRepository.findById(1L)).thenReturn(Optional.of(aluno));
-        when(disciplinaRepository.findById(1L)).thenReturn(Optional.of(disciplina));
-        when(matriculaRepository.save(any(Matricula.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(alunoRepository.findById("1")).thenReturn(Optional.of(aluno));
+        when(disciplinaRepository.findById("1")).thenReturn(Optional.of(disciplina));
+        when(matriculaRepository.save(any(Matricula.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Matricula result = matriculaService.alocarAluno(1L, 1L);
-        assertEquals(1L, result.getAluno().getId());
-        assertEquals(1L, result.getDisciplina().getId());
+        Matricula result = matriculaService.alocarAluno("1", "1");
+
+        assertEquals("1", result.getAlunoId());
+        assertEquals("1", result.getDisciplinaId());
     }
 
     @Test
-    public void testAtribuirNota() {
+    void testAtribuirNota() {
         Matricula matricula = new Matricula();
-        matricula.setId(1L);
+        matricula.setId("1");
 
-        when(matriculaRepository.findById(1L)).thenReturn(Optional.of(matricula));
-        when(matriculaRepository.save(any(Matricula.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(matriculaRepository.findById("1")).thenReturn(Optional.of(matricula));
+        when(matriculaRepository.save(any(Matricula.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Matricula result = matriculaService.atribuirNota(1L, 8.5);
+        Matricula result = matriculaService.atribuirNota("1", 8.5);
+
         assertEquals(8.5, result.getNota());
     }
 
     @Test
-    public void testListarAprovados() {
+    void testListarAprovados() {
         Aluno aluno1 = new Aluno();
-        aluno1.setId(1L);
+        aluno1.setId("1");
 
         Matricula matricula1 = new Matricula();
-        matricula1.setAluno(aluno1);
+        matricula1.setAlunoId("1");
         matricula1.setNota(8.0);
 
-        Aluno aluno2 = new Aluno();
-        aluno2.setId(2L);
+        when(matriculaRepository.findByDisciplinaId("1")).thenReturn(Arrays.asList(matricula1));
+        when(alunoRepository.findAllById(Arrays.asList("1"))).thenReturn(Arrays.asList(aluno1));
 
-        Matricula matricula2 = new Matricula();
-        matricula2.setAluno(aluno2);
-        matricula2.setNota(6.0);
+        List<Aluno> result = matriculaService.listarAprovados("1");
 
-        when(matriculaRepository.findByDisciplinaId(1L)).thenReturn(Arrays.asList(matricula1, matricula2));
-
-        List<Aluno> result = matriculaService.listarAprovados(1L);
         assertEquals(1, result.size());
-        assertEquals(1L, result.get(0).getId());
+        assertEquals("1", result.get(0).getId());
     }
 
     @Test
-    public void testListarReprovados() {
+    void testListarReprovados() {
         Aluno aluno1 = new Aluno();
-        aluno1.setId(1L);
+        aluno1.setId("1");
 
         Matricula matricula1 = new Matricula();
-        matricula1.setAluno(aluno1);
-        matricula1.setNota(8.0);
+        matricula1.setAlunoId("1");
+        matricula1.setNota(6.0);
 
-        Aluno aluno2 = new Aluno();
-        aluno2.setId(2L);
+        when(matriculaRepository.findByDisciplinaId("1")).thenReturn(Arrays.asList(matricula1));
+        when(alunoRepository.findAllById(Arrays.asList("1"))).thenReturn(Arrays.asList(aluno1));
 
-        Matricula matricula2 = new Matricula();
-        matricula2.setAluno(aluno2);
-        matricula2.setNota(6.0);
+        List<Aluno> result = matriculaService.listarReprovados("1");
 
-        when(matriculaRepository.findByDisciplinaId(1L)).thenReturn(Arrays.asList(matricula1, matricula2));
-
-        List<Aluno> result = matriculaService.listarReprovados(1L);
         assertEquals(1, result.size());
-        assertEquals(2L, result.get(0).getId());
+        assertEquals("1", result.get(0).getId());
     }
 }

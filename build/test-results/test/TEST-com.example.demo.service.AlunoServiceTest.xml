@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.demo.service.AlunoServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-09-26T00:56:24.988Z" hostname="DESKTOP-RPELI8E" time="0.495">
+  <properties/>
+  <testcase name="testCriarAluno()" classname="com.example.demo.service.AlunoServiceTest" time="0.489"/>
+  <testcase name="testListarAlunos()" classname="com.example.demo.service.AlunoServiceTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

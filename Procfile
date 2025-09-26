@@ -1,0 +1,1 @@
+web: java -jar build/libs/Desenvolvimento-de-Servicos-com-Spring-Boot-AT-0.0.1-SNAPSHOT.jar

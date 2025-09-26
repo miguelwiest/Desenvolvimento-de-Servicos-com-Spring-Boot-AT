@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Aluno;
-import com.example.demo.model.Disciplina;
 import com.example.demo.model.Matricula;
 import com.example.demo.repository.AlunoRepository;
 import com.example.demo.repository.DisciplinaRepository;
@@ -24,36 +23,38 @@ public class MatriculaService {
     @Autowired
     private DisciplinaRepository disciplinaRepository;
 
-    public Matricula alocarAluno(Long alunoId, Long disciplinaId) {
-        Aluno aluno = alunoRepository.findById(alunoId).orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
-        Disciplina disciplina = disciplinaRepository.findById(disciplinaId).orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
+    public Matricula alocarAluno(String alunoId, String disciplinaId) {
+        alunoRepository.findById(alunoId).orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+        disciplinaRepository.findById(disciplinaId).orElseThrow(() -> new RuntimeException("Disciplina não encontrada"));
 
         Matricula matricula = new Matricula();
-        matricula.setAluno(aluno);
-        matricula.setDisciplina(disciplina);
+        matricula.setAlunoId(alunoId);
+        matricula.setDisciplinaId(disciplinaId);
 
         return matriculaRepository.save(matricula);
     }
 
-    public Matricula atribuirNota(Long matriculaId, Double nota) {
+    public Matricula atribuirNota(String matriculaId, Double nota) {
         Matricula matricula = matriculaRepository.findById(matriculaId).orElseThrow(() -> new RuntimeException("Matrícula não encontrada"));
         matricula.setNota(nota);
         return matriculaRepository.save(matricula);
     }
 
-    public List<Aluno> listarAprovados(Long disciplinaId) {
+    public List<Aluno> listarAprovados(String disciplinaId) {
         List<Matricula> matriculas = matriculaRepository.findByDisciplinaId(disciplinaId);
-        return matriculas.stream()
+        List<String> alunoIds = matriculas.stream()
                 .filter(matricula -> matricula.getNota() != null && matricula.getNota() >= 7)
-                .map(Matricula::getAluno)
+                .map(Matricula::getAlunoId)
                 .collect(Collectors.toList());
+        return (List<Aluno>) alunoRepository.findAllById(alunoIds);
     }
 
-    public List<Aluno> listarReprovados(Long disciplinaId) {
+    public List<Aluno> listarReprovados(String disciplinaId) {
         List<Matricula> matriculas = matriculaRepository.findByDisciplinaId(disciplinaId);
-        return matriculas.stream()
+        List<String> alunoIds = matriculas.stream()
                 .filter(matricula -> matricula.getNota() != null && matricula.getNota() < 7)
-                .map(Matricula::getAluno)
+                .map(Matricula::getAlunoId)
                 .collect(Collectors.toList());
+        return (List<Aluno>) alunoRepository.findAllById(alunoIds);
     }
 }

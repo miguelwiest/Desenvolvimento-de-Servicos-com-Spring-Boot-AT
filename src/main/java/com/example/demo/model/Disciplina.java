@@ -1,30 +1,22 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import java.util.Set;
-import jakarta.persistence.OneToMany;
 
 @Data
-@Entity
+@Document(collection = "disciplinas")
 public class Disciplina {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotBlank(message = "Nome é obrigatório")
     private String nome;
 
     @NotBlank(message = "Código é obrigatório")
-    @Column(unique = true)
+    @Indexed(unique = true)
     private String codigo;
-
-    @OneToMany(mappedBy = "disciplina")
-    private Set<Matricula> matriculas;
 }
