@@ -46,3 +46,41 @@ O Spring Boot fornece a dependência `spring-boot-starter-test`, que inclui:
 *   **JsonPath:** XPath para JSON.
 
 Para escrever um teste unitário, você cria uma classe de teste e anota os métodos de teste com `@Test`. O Spring Boot fornece anotações como `@SpringBootTest` para carregar o contexto completo da aplicação ou `@WebMvcTest` para testar a camada de controller da web. Você pode usar `@MockBean` para mockar dependências e `@Autowired` para injetar beans do contexto do Spring.
+
+#
+# Relatório do projeto  
+
+## 1. Criar aplicações web a partir do Spring Boot Initializer
+
+O projeto foi construído utilizando **Gradle**, uma ferramenta de automação de compilação que oferece flexibilidade e desempenho. A escolha pelo Gradle se deu por sua capacidade de gerenciar dependências de forma eficiente e por seus scripts de build concisos e poderosos.
+
+O projeto foi iniciado utilizando o **Spring Initializr** via interface web, o que permitiu uma configuração rápida e fácil do projeto, com a inclusão das dependências necessárias, como Spring Web, Spring Data JPA, H2 Database e Spring Security.
+
+## 2. Desenvolver RESTful APIs com Spring Boot
+
+Foram desenvolvidos endpoints RESTful para todas as funcionalidades solicitadas, utilizando as anotações do Spring MVC para mapear as requisições HTTP:
+
+*   `@GetMapping`: Para listar alunos, disciplinas, alunos aprovados e reprovados.
+*   `@PostMapping`: Para cadastrar alunos, disciplinas e alocar alunos em disciplinas.
+*   `@PutMapping`: Para atribuir notas aos alunos.
+*   `@DeleteMapping`: Para remover alunos e disciplinas
+
+## 3. Implementar persistência de dados com JPA, Redis e MongoDB
+
+O projeto utiliza **Spring Data MongoDB** para a persistência dos dados. A escolha pelo MongoDB se deu por sua flexibilidade e escalabilidade como um banco de dados NoSQL orientado a documentos, o que se adequa bem ao modelo de dados da aplicação.
+
+As entidades do modelo de dados (`Aluno`, `Disciplina`, `Matricula`) foram mapeadas para coleções no MongoDB utilizando as anotações do Spring Data MongoDB, como `@Document`, `@Id`, e `@Indexed`.
+
+## 4. Implementar testes em aplicações SpringBoot
+
+Foram desenvolvidos testes unitários para todos os serviços e controladores da aplicação, utilizando o framework **JUnit 5** e **Mockito**. A cobertura de testes é superior a 80%, garantindo a qualidade e a confiabilidade do software.
+
+A anotação `@SpringBootTest` foi utilizada para carregar o contexto completo da aplicação nos testes, e a anotação `@MockBean` foi utilizada para mockar as dependências e isolar as unidades de código sob teste.
+
+## 5. Implementar medidas de segurança em aplicações Spring Boot
+
+O **Spring Security** foi configurado para proteger a aplicação. Foi implementada a autenticação básica (Basic Auth) para garantir que apenas o professor (usuário autenticado) possa realizar as operações de cadastro, listagem e atribuição de notas.
+
+## 6. Realizar o deploy em aplicações SpringBoot
+
+A aplicação foi empacotada como um arquivo `.jar` executável. Esta abordagem foi escolhida em vez do deploy em uma plataforma de nuvem para evitar a necessidade de um cartão de crédito. O arquivo `.jar` pode ser executado em qualquer ambiente que tenha o Java instalado, utilizando o comando `java -jar nome-do-arquivo.jar`.
